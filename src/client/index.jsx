@@ -8,13 +8,10 @@ import theme from "./theme/theme";
 
 import "./app.css";
 import Header from "./components/Header";
-import NewContact from "./pages/NewContact";
-import Contacts from "./pages/Contacts";
-import ContactDetail from "./pages/ContactDetail";
-import Tasks from "./pages/Tasks";
-import Projects from "./pages/Projects";
+import BugDetailPage from "./pages/BugDetailPage";
+import BugListPage from "./pages/BugListPage";
+import NewBugPage from "./pages/NewBugPage";
 import NotFound from "./pages/NotFound";
-import Home from "./pages/Home";
 
 const root = document.getElementById("root");
 if (root !== null) {
@@ -26,12 +23,10 @@ if (root !== null) {
         <BrowserRouter>
           <Header />
           <Routes>
-            <Route path="/" element={<Home key="home" />} />
-            <Route path="/contacts" element={<Contacts key="contacts" />} />
-            <Route path="/new-contact" element={<NewContact key="new-contact" />} />
-            <Route path="/contact/:id" element={<ContactDetail key="contact-detail" />} key="contact-detail"></Route>
-            <Route path="/tasks" element={<Tasks key="tasks" />} />
-            <Route path="/projects" element={<Projects key="projects" />} />
+            <Route path="/" element={<BugListPage />} />
+            <Route path="/bugs" element={<BugListPage />} />
+            <Route path="/bugs/new" element={<NewBugPage />} />
+            <Route path="/bugs/:id" element={<BugDetailPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

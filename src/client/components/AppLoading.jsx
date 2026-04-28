@@ -1,17 +1,9 @@
-import React from "react";
+import { Box, CircularProgress } from "@mui/material";
 
 const AppLoading = () => (
-  <div className="icon-container">
-    <img
-      src="/template-logo.png"
-      height={150}
-      alt="Template logo"
-      style={{
-        marginBottom: -10,
-      }}
-    />
-    <div className="light-bar"></div>
-  </div>
+  <Box display="flex" justifyContent="center" alignItems="center" py={8}>
+    <CircularProgress />
+  </Box>
 );
 
 export default AppLoading;

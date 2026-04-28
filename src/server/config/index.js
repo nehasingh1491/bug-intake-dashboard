@@ -19,7 +19,7 @@
 import * as dotenv from "dotenv";
 
 // Load environment variables from .env file
-dotenv.config();
+dotenv.config({ quiet: true });
 
 /**
  * Validate required environment variables
@@ -57,6 +57,12 @@ const config = {
   port: parseInt(getEnv("PORT", "8080"), 10),
 
   /**
+   * Server host
+   * Default: 127.0.0.1 for local study runs
+   */
+  host: getEnv("HOST", "127.0.0.1"),
+
+  /**
    * Node environment
    * Values: 'development', 'production', 'test'
    */
@@ -81,7 +87,7 @@ const config = {
    * Database configuration
    */
   database: {
-    url: getEnv("DATABASE_URL"),
+    path: getEnv("SQLITE_DB_PATH", "data/bug-intake.sqlite"),
   },
 
   /**

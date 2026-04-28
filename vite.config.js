@@ -5,10 +5,12 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { config } from "dotenv";
 
-config();
+config({ quiet: true });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const apiHost = process.env.HOST || "127.0.0.1";
+const apiPort = process.env.PORT || "8080";
 
 export default defineConfig({
   plugins: [react()],
@@ -23,11 +25,10 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    open: true,
-    strictPort: true,
+    open: false,
+    strictPort: false,
     proxy: {
-      "/api": `http://localhost:${process.env.PORT}`,
-      "/auth": `http://localhost:${process.env.PORT}`,
+      "/api": `http://${apiHost}:${apiPort}`,
     },
   },
   preview: {

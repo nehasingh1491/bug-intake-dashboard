@@ -1,34 +1,68 @@
-import { celebrate, Joi } from "celebrate";
+import { celebrate, Joi, Segments } from "celebrate";
+import {
+  BUG_AREA_VALUES,
+  BUG_PRIORITY_VALUES,
+  BUG_STATUS_VALUES,
+} from "../constants/bug.constants.js";
 
 /**
- * Validation schemas for contact-related requests
- * Uses celebrate/Joi for request validation
+ * Validation schemas for bug-related requests.
  */
-export const contactValidation = {
-  /**
-   * Validation for contact creation
-   * Requires firstName, lastName, and valid email
-   */
-  create: celebrate({
-    body: Joi.object({
-      firstName: Joi.string().required().description("Contact's first name"),
-      lastName: Joi.string().required().description("Contact's last name"),
-      email: Joi.string().email().required().description("Contact's email address"),
+const bugIdSchema = {
+  [Segments.PARAMS]: Joi.object({
+    id: Joi.number().integer().positive().required(),
+  }),
+};
+
+const bugBodySchema = {
+  title: Joi.string().trim().min(3).max(160).required(),
+  description: Joi.string().trim().min(1).max(2000).required(),
+  status: Joi.string()
+    .valid(...BUG_STATUS_VALUES)
+    .default("open"),
+  priority: Joi.string()
+    .valid(...BUG_PRIORITY_VALUES)
+    .default("medium"),
+  assignedTo: Joi.string().trim().min(1).max(120).required(),
+  area: Joi.string()
+    .valid(...BUG_AREA_VALUES)
+    .default("other"),
+  stepsToReproduce: Joi.string().trim().min(1).max(2000).required(),
+};
+
+export const bugValidation = {
+  list: celebrate({
+    [Segments.QUERY]: Joi.object({
+      status: Joi.string().valid(...BUG_STATUS_VALUES),
+      priority: Joi.string().valid(...BUG_PRIORITY_VALUES),
     }),
   }),
 
-  /**
-   * Validation for contact updates
-   * All fields are optional, but must be valid if provided
-   */
+  id: celebrate(bugIdSchema),
+
+  create: celebrate({
+    [Segments.BODY]: Joi.object(bugBodySchema),
+  }),
+
   update: celebrate({
-    params: Joi.object({
-      id: Joi.number().required().description("Contact ID"),
-    }),
-    body: Joi.object({
-      firstName: Joi.string().description("Updated first name"),
-      lastName: Joi.string().description("Updated last name"),
-      email: Joi.string().email().description("Updated email address"),
+    ...bugIdSchema,
+    [Segments.BODY]: Joi.object({
+      title: bugBodySchema.title.optional(),
+      description: bugBodySchema.description.optional(),
+      status: Joi.string().valid(...BUG_STATUS_VALUES),
+      priority: Joi.string().valid(...BUG_PRIORITY_VALUES),
+      assignedTo: bugBodySchema.assignedTo.optional(),
+      area: Joi.string().valid(...BUG_AREA_VALUES),
+      stepsToReproduce: bugBodySchema.stepsToReproduce.optional(),
+    }).min(1),
+  }),
+
+  status: celebrate({
+    ...bugIdSchema,
+    [Segments.BODY]: Joi.object({
+      status: Joi.string()
+        .valid(...BUG_STATUS_VALUES)
+        .required(),
     }),
   }),
 };

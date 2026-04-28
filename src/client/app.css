@@ -3,29 +3,5 @@
 body {
   margin: auto;
   font-family: "Roboto", sans-serif;
-}
-
-/* AppHeroIcon.css */
-.icon-container {
-  position: relative;
-  display: inline-block;
-}
-
-.light-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 10%;
-  background: rgba(255, 255, 255, 0.8);
-  animation: moveLightBar 2s linear infinite;
-}
-
-@keyframes moveLightBar {
-  0% {
-    left: -10%;
-  }
-  100% {
-    left: 100%;
-  }
+  background: #f6f8fb;
 }

@@ -91,7 +91,7 @@ export default [
 
   // Server-specific configuration
   {
-    files: ["src/server/**/*.js", "prisma/**/*.js", "scripts/**/*.js"],
+    files: ["src/server/**/*.js", "scripts/**/*.js"],
     languageOptions: {
       globals: {
         ...globals.node,

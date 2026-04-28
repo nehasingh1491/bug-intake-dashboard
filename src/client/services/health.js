@@ -3,7 +3,7 @@
  * ================
  *
  * API methods for system health checks.
- * Used to verify database connectivity and server status.
+ * Used to verify API connectivity and local database access.
  *
  * Usage:
  *   import { healthService } from '@/client/services';
@@ -28,7 +28,7 @@ export const healthService = {
   checkDatabase: async () => {
     try {
       await api.get("/health");
-      await api.get("/contact/list");
+      await api.get("/bug/list");
       return true;
     } catch {
       return false;

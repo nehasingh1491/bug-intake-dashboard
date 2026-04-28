@@ -47,10 +47,8 @@ describe("Header Component", () => {
     it("renders navigation links", () => {
         renderWithRouter(<Header />);
 
-        // Check for main navigation links
-        expect(screen.getByText(/Contacts/i)).toBeInTheDocument();
-        expect(screen.getByText(/Tasks/i)).toBeInTheDocument();
-        expect(screen.getByText(/Projects/i)).toBeInTheDocument();
+        expect(screen.getByText(/Bugs/i)).toBeInTheDocument();
+        expect(screen.getByText(/New Bug/i)).toBeInTheDocument();
     });
 
     /**
@@ -61,7 +59,7 @@ describe("Header Component", () => {
         renderWithRouter(<Header />);
 
         // Header uses a link for the logo/title
-        const titleElement = screen.getByRole("link", { name: /simple-vite-react-express/i });
+        const titleElement = screen.getByRole("link", { name: /Bug Intake Dashboard/i });
         expect(titleElement).toBeInTheDocument();
     });
 });

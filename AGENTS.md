@@ -1,79 +1,77 @@
-# AGENTS.md — AI Agent Instructions
+# AGENTS.md - AI Agent Instructions
 
 ## Overview
 
-**simple-vite-react-express** is a production-ready full-stack starter template. It demonstrates best practices for building React + Express applications with PostgreSQL.
+**bug-intake-dashboard-study** is a controlled full-stack codebase for software engineering / HCI study sessions. It models a lightweight internal Bug Intake Dashboard for QA and product teams.
 
-**Goal**: Keep this project simple, clean, and well-documented as a learning/starter template.
+Keep the project small, stable, and easy to inspect. The goal is not to add production breadth; it is to preserve a realistic frontend -> API -> service -> SQLite flow for short participant tasks.
 
 ## Architecture
 
-```
-Client (React 19 + MUI 7) → API Layer (Express 5) → Database (PostgreSQL via Prisma 7)
+```text
+Client (React 19 + MUI 7) -> API Layer (Express 5) -> SQLite
 ```
 
-The codebase follows a layered pattern on both sides:
-
-- **Client**: Pages → Hooks → Services → Axios → Server API
-- **Server**: Routes → Services → Prisma → PostgreSQL
+- **Client**: Pages -> Hooks -> Services -> Axios -> Server API
+- **Server**: Routes -> Controllers -> Services -> SQLite
 
 ## Setup
 
 ```bash
-nvm use                   # Node 22
-npm install               # Install dependencies
-cp example.env .env       # Create env file, then edit DATABASE_URL
-npm run setup             # Interactive setup wizard
-npm run db:setup          # Run Prisma migrations
-npm run db:seed           # Optional: seed sample data
-npm run dev               # Start dev servers
+npm install
+npm run dev
+```
+
+Optional reset:
+
+```bash
+npm run db:reset
 ```
 
 ## Coding Conventions
 
-- **ESM only** — `import`/`export`, no `require()`
-- **No TypeScript** — use JSDoc for type hints
-- **Functional components** — no class components
-- **Custom hooks for data** — never call axios directly from pages
-- **Service layer** — all API calls go through `src/client/services/`
-- **MUI for UI** — use `@mui/material` components, `sx` prop for styling
-- **Express 5** — async route handlers, no callback pattern
+- ESM only: `import`/`export`, no `require()`.
+- No TypeScript; use readable JavaScript and light JSDoc only where it helps.
+- Functional React components only.
+- Pages should use hooks/services rather than calling Axios directly.
+- API calls belong in `src/client/services/`.
+- Server business logic belongs in `src/server/services/`.
+- MUI is the UI system; use `sx` for local styling.
+- Keep validation understandable and close to the API boundary.
 
 ## Testing
 
 ```bash
-npm test              # Watch mode
-npm run test:run      # Single run (CI)
-npm run test:coverage # With coverage report
+npm test
+npm run test:run
+npm run test:coverage
 ```
 
-- Framework: Vitest 4 + React Testing Library
-- Test files: `src/client/__tests__/`
-- Setup file: `src/client/__tests__/setup.js`
+Test files live under `src/client/__tests__/`.
 
 ## Linting & Formatting
 
 ```bash
-npm run lint          # Check
-npm run lint:fix      # Auto-fix
-npm run format        # Prettier
+npm run lint
+npm run lint:fix
+npm run format
 ```
-
-- ESLint 9 flat config (`eslint.config.js`)
-- Prettier config (`.prettierrc`)
 
 ## Commit Style
 
-Use conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `style:`, `refactor:`, `test:`
+Use conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `style:`, `refactor:`, `test:`.
 
 ## Key Files
 
 | File | Purpose |
 |------|---------|
-| `src/server/index.js` | Express server entry point |
-| `src/client/index.jsx` | React app entry with routing |
-| `prisma/schema.prisma` | Database schema |
-| `prisma.config.ts` | Prisma CLI configuration |
-| `vite.config.js` | Vite build configuration |
-| `vitest.config.js` | Test configuration |
-| `eslint.config.js` | Linting rules |
+| `src/client/pages/BugListPage.jsx` | Bug list and filters |
+| `src/client/pages/BugDetailPage.jsx` | Bug detail and status update |
+| `src/client/pages/NewBugPage.jsx` | Bug intake form |
+| `src/client/services/bugService.js` | Client API wrapper |
+| `src/client/hooks/useBugs.js` | Bug data hooks |
+| `src/server/routes/v1/bug.routes.js` | Express bug routes |
+| `src/server/controllers/bug.controller.js` | Request handlers |
+| `src/server/services/bug.service.js` | SQLite-backed domain logic |
+| `src/server/db/schema.sql` | SQLite schema |
+| `src/server/db/seed.js` | Study seed data |

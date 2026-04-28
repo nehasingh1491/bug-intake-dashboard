@@ -3,7 +3,7 @@
  * =====================
  *
  * Custom hook for checking database and server connectivity.
- * Used primarily on the Home page to show setup guide if DB is not configured.
+ * Used by development checks to verify server and database connectivity.
  *
  * Features:
  * - Initial connection check on mount
@@ -20,7 +20,7 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import { healthService, contactsService, tasksService, projectsService } from "../services";
+import { bugService, healthService } from "../services";
 
 /**
  * Connection status enum
@@ -56,17 +56,11 @@ export function useHealthCheck() {
       }
 
       // Try to fetch data to verify database connection
-      const [contactsRes, tasksRes, projectsRes] = await Promise.all([
-        contactsService.getAll(),
-        tasksService.getAll().catch(() => ({ data: [] })),
-        projectsService.getAll().catch(() => ({ data: [] })),
-      ]);
+      const bugsResponse = await bugService.getAll();
 
       // Set stats for display
       setStats({
-        contacts: contactsRes.data?.length || 0,
-        tasks: tasksRes.data?.length || 0,
-        projects: projectsRes.data?.length || 0,
+        bugs: bugsResponse.data?.length || 0,
       });
 
       setStatus(ConnectionStatus.CONNECTED);

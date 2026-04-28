@@ -11,7 +11,7 @@
  *
  * Usage:
  *   import api from '@/client/services/api';
- *   const data = await api.get('/contact/list');
+ *   const data = await api.get('/bug/list');
  */
 
 import axios from "axios";

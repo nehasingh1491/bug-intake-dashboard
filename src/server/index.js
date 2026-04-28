@@ -23,6 +23,8 @@ import { errors } from "celebrate";
 import routes from "./routes/v1/index.js";
 import { securityMiddleware, requestLogger } from "./middleware/security.js";
 import config from "./config/index.js";
+import { closeDatabase } from "./db/database.js";
+import { seedIfEmpty } from "./db/seed.js";
 
 // ============================================================================
 // Express App Setup
@@ -107,14 +109,20 @@ app.use((err, req, res, _next) => {
 // Server Startup
 // ============================================================================
 
+const seededCount = seedIfEmpty();
+
+if (seededCount > 0) {
+  console.log(`Seeded ${seededCount} starter bugs.`);
+}
+
 const httpServer = http.createServer(app);
 
-httpServer.listen(config.port, () => {
+httpServer.listen(config.port, config.host, () => {
   console.log(`
-🚀 Server running on port ${config.port}
-📦 Environment: ${config.nodeEnv}
-🔗 API: http://localhost:${config.port}/api/v1
-${config.isDevelopment ? "🛠️  Development mode - hot reload enabled" : ""}
+Server running at http://${config.host}:${config.port}
+Environment: ${config.nodeEnv}
+API: http://${config.host}:${config.port}/api/v1
+${config.isDevelopment ? "Development mode - hot reload enabled" : ""}
   `);
 });
 
@@ -131,6 +139,7 @@ const shutdown = (signal) => {
 
   httpServer.close(() => {
     console.log("HTTP server closed.");
+    closeDatabase();
     process.exit(0);
   });
 
@@ -143,4 +152,3 @@ const shutdown = (signal) => {
 
 process.on("SIGTERM", () => shutdown("SIGTERM"));
 process.on("SIGINT", () => shutdown("SIGINT"));
-

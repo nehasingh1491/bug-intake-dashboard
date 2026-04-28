@@ -1,21 +1,18 @@
 import { Router } from "express";
 import { errors } from "celebrate";
-import contactRoutes from "./contact.route.js";
-import taskRoutes from "./task.route.js";
-import projectRoutes from "./project.route.js";
+import bugRoutes from "./bug.routes.js";
+import { successResponse } from "../../utils/response.js";
 
 const router = Router();
 
-router.use("/contact", contactRoutes);
-router.use("/task", taskRoutes);
-router.use("/project", projectRoutes);
+router.use("/bug", bugRoutes);
 
 /**
  * GET /health
  * Health check endpoint.
  */
 router.get("/health", (req, res) => {
-  res.send("Ok");
+  res.json(successResponse({ status: "ok" }, "API is healthy"));
 });
 
 // Handle Celebrate/Joi validation errors
@@ -34,4 +31,3 @@ router.use((err, req, res, _next) => {
 });
 
 export default router;
-

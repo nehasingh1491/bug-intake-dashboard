@@ -1,31 +1,30 @@
-import React from "react";
-import { Container, Card, CardContent, Typography, Box } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import AppHeroIcon from "../components/AppHeroIcon";
 
 const NotFound = () => {
   return (
-    <Container maxWidth="xl">
-      <Card>
-        <CardContent>
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            height="50vh"
-          >
-            <AppHeroIcon />
-            <SentimentVeryDissatisfiedIcon style={{ fontSize: 100 }} />
-            <Typography variant="h4" align="center">
-              404
-            </Typography>
-            <Typography variant="subtitle1" align="center">
-              The page you're looking for cannot be found.
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
+    <Container maxWidth="md" component="main" sx={{ py: 4 }}>
+      <Paper elevation={1} sx={{ p: 4 }}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          minHeight="50vh"
+        >
+          <SentimentVeryDissatisfiedIcon style={{ fontSize: 80 }} />
+          <Typography variant="h4" align="center">
+            404
+          </Typography>
+          <Typography variant="subtitle1" align="center">
+            The requested page cannot be found.
+          </Typography>
+          <Button component={RouterLink} to="/bugs" sx={{ mt: 2 }}>
+            Back to bugs
+          </Button>
+        </Box>
+      </Paper>
     </Container>
   );
 };
